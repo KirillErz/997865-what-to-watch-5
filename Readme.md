@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть» [![Build status][travis-image]][travis-url]
 
 * Студент: [Кирилл Ерзылев](https://up.htmlacademy.ru/react/5/user/997865).
-* Наставник: `Неизвестно`.
+* Наставник: [Максим Чеченёв](https://htmlacademy.ru/profile/id1507573).
 
 ---
 
