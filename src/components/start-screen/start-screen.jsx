@@ -302,15 +302,14 @@ const StartScreen = (props) => {
           </div>
         </footer>
       </div>
-      </React.Fragment>
+    </React.Fragment>
   );
 };
 
 StartScreen.propTypes = {
   genre: PropTypes.string.isRequired,
   releaseDate: PropTypes.number.isRequired
-
-}
+};
 
 
 export default StartScreen;
