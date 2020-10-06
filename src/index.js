@@ -10,7 +10,7 @@ const Properties = {
 
 ReactDOM.render(
     <App
-      properties = {Properties}
+      properties={Properties}
     />,
     document.querySelector(`#root`)
 );

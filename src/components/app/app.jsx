@@ -9,8 +9,8 @@ const App = (props) => {
   const releaseDate = properties.releaseDate;
   return (
     <StartScreen
-      genre = {genre}
-      releaseDate = {releaseDate}
+      genre={genre}
+      releaseDate={releaseDate}
     />
   );
 };
