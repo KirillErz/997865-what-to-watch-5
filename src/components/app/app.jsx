@@ -10,44 +10,55 @@ import MoviePlayer from "../movie-player/movie-player";
 
 
 const App = (props) => {
-  const {properties} = props;
-  const genre = properties.genre;
-  const releaseDate = properties.releaseDate;
+  const {promo, films, filmDetail} = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
           <StartScreen
-            genre={genre}
-            releaseDate={releaseDate}
+            films={films}
+            promo={promo}
           />
         </Route>
         <Route exact path="/login">
           <AuthScreen />
         </Route>
         <Route exact path="/mylist">
-          <MovieScreenList />
+          <MovieScreenList films={films} />
         </Route>
-        <Route exact path="/films/:id">
-          <MovieScreen />
-        </Route>
-        <Route exact path="/films/:id/review">
-          <MovieAddReview />
-        </Route>
-        <Route exact path="/player:id">
+        <Route
+          exact
+          path="/films/:id"
+          render={({match}) => (
+            <MovieScreen
+              films={films}
+              filmId={match.params.id}
+              filmDetail={filmDetail}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/films/:id/review"
+          render={({match}) => (
+            <MovieAddReview
+              filmid={match.params.id}
+            />
+          )}
+        />
+        <Route exact path="/player/:id">
           <MoviePlayer />
         </Route>
       </Switch>
     </BrowserRouter>
   );
 };
-// как сделать так что бы проверить сразу свойства объекта ?
+
 App.propTypes = {
-  properties: PropTypes.shape({
-    genre: PropTypes.string,
-    releaseDate: PropTypes.number
-  })
+  promo: PropTypes.shape().isRequired,
+  films: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  filmDetail: PropTypes.shape()
 };
 
 export default App;

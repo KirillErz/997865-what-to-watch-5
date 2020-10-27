@@ -2,15 +2,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app";
+import promo from "./mocks/promo";
+import films from "./mocks/films";
+import filmDetail from "./mocks/film-detail";
 
-const Properties = {
-  genre: `comedy`,
-  releaseDate: 1922
-};
 
 ReactDOM.render(
     <App
-      properties={Properties}
+      promo={promo}
+      films={films}
+      filmDetail={filmDetail}
     />,
     document.querySelector(`#root`)
 );
