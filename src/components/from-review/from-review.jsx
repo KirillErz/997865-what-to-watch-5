@@ -27,12 +27,13 @@ class FormReview extends React.Component {
     const {onReview} = this.props;
 
     return (
-      <form onSubmit={(evt) => {
-        evt.preventDefault();
-        onReview(this.state.textValue, this.state.starValue);
-      }} action="#" className="add-review__form">
+      <form
+        onSubmit={onReview(this.state.textValue, this.state.starValue)}
+        onChange={this.handleStarChange.bind(this)}
+        action="#"
+        className="add-review__form">
         <div className="rating">
-          <div onChange={this.handleStarChange.bind(this)} className="rating__stars">
+          <div className="rating__stars">
             <input className="rating__input" id="star-1" type="radio" name="rating" value="1" />
             <label className="rating__label" htmlFor="star-1">Rating 1</label>
 

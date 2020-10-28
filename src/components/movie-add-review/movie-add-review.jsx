@@ -6,8 +6,12 @@ class MovieAddReview extends React.Component {
     super(props);
   }
 
-  handleReview() {
-
+  handleReview(textValue, starValue) {
+    return function (evt) {
+      evt.preventDefault();
+      // просто вернул что бы не ругался пока
+      return textValue + starValue;
+    };
   }
 
   render() {
