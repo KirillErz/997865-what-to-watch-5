@@ -16,7 +16,6 @@ class MovieAddReview extends React.Component {
 
   render() {
     // const { filmId, film } = this.props
-
     return (<section className="movie-card movie-card--full">
       <div className="movie-card__header">
         <div className="movie-card__bg">
