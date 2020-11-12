@@ -1,5 +1,5 @@
 import React from "react";
-import FormReview from "../from-review/from-review";
+import FormReview from "../form-review/form-review";
 
 class MovieAddReview extends React.Component {
   constructor(props) {
