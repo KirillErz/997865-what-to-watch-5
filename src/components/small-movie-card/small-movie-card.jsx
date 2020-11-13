@@ -10,8 +10,18 @@ class SmallMovieCard extends PureComponent {
     this.state = {
       isPlaying: false
     };
+
+    this.handlerMouseOver = this.handlerMouseOver.bind(this);
+    this.handlerMouseOut = this.handlerMouseOut.bind(this);
   }
 
+  handlerMouseOver() {
+    this.setState({isPlaying: !this.state.isPlaying})
+  }
+
+  handlerMouseOut() {
+    this.setState({isPlaying: !this.state.isPlaying})
+  }
 
 
   render() {
@@ -31,7 +41,7 @@ class SmallMovieCard extends PureComponent {
 
     return (
       <article className="small-movie-card catalog__movies-card">
-        <div onMouseOver={() => this.setState({isPlaying: !isPlaying})} onMouseOut={() => this.setState({isPlaying: !isPlaying})} className="small-movie-card__image">
+        <div onMouseOver={this.handlerMouseOver} onMouseOut={this.handlerMouseOut} className="small-movie-card__image">
           <VideoPlayer
             src={src}
             poster={poster}

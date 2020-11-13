@@ -17,11 +17,14 @@ export default class VideoPlayer extends PureComponent {
     const {src, poster, properties} = this.props;
     const {muted, width, height} = properties;
     const video = this._videoRef.current;
-    video.muted = muted;
-    video.width = width;
-    video.height = height;
-    video.poster = poster;
-    video.src = src;
+    if (video) {
+      video.muted = muted;
+      video.width = width;
+      video.height = height;
+      video.poster = poster;
+      video.src = src;
+    }
+
   }
 
   componentWillUnmount() {
@@ -30,6 +33,18 @@ export default class VideoPlayer extends PureComponent {
   }
 
 
+  componentDidUpdate() {
+    const video = this._videoRef.current;
+    if (this.props.isPlaying) {
+      this._playTimeout = setTimeout(() => {
+        video.play();
+      }, 1000);
+    } else {
+      video.load();
+      clearTimeout(this._playTimeout);
+    }
+  }
+
   render() {
 
     return (
@@ -37,18 +52,6 @@ export default class VideoPlayer extends PureComponent {
         ref={this._videoRef}
       />
     );
-
-  }
-
-  componentDidUpdate() {
-    const video = this._videoRef.current;
-    video.load();
-    if (this.props.isPlaying) {
-      //this.interval = setInterval(() => video.play(), 1000);
-      video.play();
-    } else {
-      video.pause();
-    }
   }
 
 }
