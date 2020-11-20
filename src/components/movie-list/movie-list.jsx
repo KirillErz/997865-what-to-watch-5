@@ -12,10 +12,10 @@ class MovieList extends React.PureComponent {
   }
 
   render() {
-    const {films} = this.props;
+    const {moviesList} = this.props;
     return (
       <div className="catalog__movies-list">
-        {films.map(film => (
+        {moviesList.map(film => (
           <MovieCard
             key={film.id}
             film={film}
@@ -27,7 +27,7 @@ class MovieList extends React.PureComponent {
 }
 
 MovieList.propTypes = {
-  films: PropTypes.array.isRequired
+  moviesList: PropTypes.array.isRequired
 };
 
 export default MovieList;

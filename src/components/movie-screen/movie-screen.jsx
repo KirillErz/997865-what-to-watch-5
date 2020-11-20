@@ -159,7 +159,7 @@ MovieScreen.propTypes = {
         date: PropTypes.number
       }),
       runtime: PropTypes.number,
-      genre: PropTypes.arrayOf(PropTypes.string),
+      genre: PropTypes.string,
       description: PropTypes.string,
       userDetails: PropTypes.shape({
         watchlist: PropTypes.bool

@@ -11,7 +11,6 @@ import MoviePlayer from "../movie-player/movie-player";
 
 const App = (props) => {
   const {promo, films, filmDetail} = props;
-
   return (
     <BrowserRouter>
       <Switch>
