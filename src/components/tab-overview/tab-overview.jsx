@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 
 const  Overview = (props) => {
-  const {totalRating, countRatings, description, director, starring} = props
+  const {totalRating, countRatings, description, director, starring} = props;
 
   const RatingEnumName = {
     3: `Bad`,
@@ -34,6 +34,6 @@ const  Overview = (props) => {
       </div>
     </Fragment>
   );
-}
+};
 
 export default Overview;

@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react";
+import PropTypes from "prop-types";
 
 export default class Tab extends PureComponent {
   constructor(props) {
@@ -13,12 +14,20 @@ export default class Tab extends PureComponent {
 
   render() {
     return (
-      <li className={`movie-nav__item ${this.props.isActive ? 'movie-nav__item--active' : ''}`}>
+      <li className={`movie-nav__item ${this.props.isActive ? `movie-nav__item--active` : ``}`}>
         <a className="movie-nav__link"
-           onClick={this.handleTabClick}>
+          onClick={this.handleTabClick}>
           {this.props.tabName}
         </a>
       </li>
     );
   }
 }
+
+Tab.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  tabIndex: PropTypes.number.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  tabName: PropTypes.string.isRequired
+
+};

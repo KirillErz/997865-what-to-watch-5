@@ -1,16 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MovieList from "../movie-list/movie-list";
-import { Link } from "react-router-dom";
+// import MovieList from "../movie-list/movie-list";
+import {Link} from "react-router-dom";
 import Tabs from "../tabs/tabs";
 import Tab from "../tab/tab";
-import Overview from "../tab-overview/tab-overview"
-import Details from "../tab-details/tab-details"
-import Reviews from "../tab-reviews/tab-reviews"
+import Overview from "../tab-overview/tab-overview";
+import Details from "../tab-details/tab-details";
+import Reviews from "../tab-reviews/tab-reviews";
 
 const MovieScreen = (props) => {
-  const { films, filmId, filmDetail } = props;
-  const { filmInfo } = filmDetail;
+  const {moviesList, filmId, filmDetail} = props;
+  const {filmInfo} = filmDetail;
   const {
     title,
     totalRating,
@@ -23,8 +23,6 @@ const MovieScreen = (props) => {
     genre,
     description,
   } = filmInfo;
-
-
 
   return (
     <React.Fragment>
@@ -117,7 +115,7 @@ const MovieScreen = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <MovieList films={films} />
+          {/* <MovieList moviesList={moviesList} /> */}
         </section>
 
         <footer className="page-footer">
@@ -139,7 +137,7 @@ const MovieScreen = (props) => {
 };
 
 MovieScreen.propTypes = {
-  films: PropTypes.array.isRequired,
+  moviesList: PropTypes.array.isRequired,
   filmId: PropTypes.string,
   filmDetail: PropTypes.shape({
     id: PropTypes.number,

@@ -16,11 +16,11 @@ class SmallMovieCard extends PureComponent {
   }
 
   handlerMouseOver() {
-    this.setState({isPlaying: !this.state.isPlaying})
+    this.setState({isPlaying: !this.state.isPlaying});
   }
 
   handlerMouseOut() {
-    this.setState({isPlaying: !this.state.isPlaying})
+    this.setState({isPlaying: !this.state.isPlaying});
   }
 
 
@@ -37,7 +37,7 @@ class SmallMovieCard extends PureComponent {
       muted: `muted`,
       width: 280,
       height: 175,
-    }
+    };
 
     return (
       <article className="small-movie-card catalog__movies-card">

@@ -3,8 +3,6 @@ import React, {Fragment} from "react";
 const Details = (props) => {
   //const {} = props
 
-
-
   return (
     <Fragment>
       <div className="movie-card__text movie-card__row">
@@ -38,6 +36,6 @@ const Details = (props) => {
       </div>
     </Fragment>
   );
-}
+};
 
-export default Details
+export default Details;

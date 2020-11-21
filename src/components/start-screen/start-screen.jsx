@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import MovieList from "../movie-list/movie-list";
 import {connect} from "react-redux";
 import {ActionCreator} from "../../store/action";
-import ListGenres from "../list-genres/list-genres"
+import ListGenres from "../list-genres/list-genres";
+import ShowMore from "../show-more/show-more";
 
 const StartScreen = (props) => {
-  const {moviesList, activeGenre, promo, handlerMoviefilter} = props;
+  const {moviesList, activeGenre, showMoviesCount, promo, handlerMoviefilter, handlerOnClickShowMore} = props;
   const {genre, releaseDate} = promo;
   return (
     <React.Fragment>
@@ -69,12 +70,17 @@ const StartScreen = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ListGenres
-          activeGenre={activeGenre}
-          handlerMoviefilter={handlerMoviefilter}
+            activeGenre={activeGenre}
+            handlerMoviefilter={handlerMoviefilter}
           />
-          <MovieList moviesList={moviesList} />
+          <MovieList
+            showMoviesCount={showMoviesCount}
+            moviesList={moviesList} />
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            {showMoviesCount < moviesList.length ? (
+              <ShowMore
+                handlerOnClickShowMore={handlerOnClickShowMore}
+              />) : null}
           </div>
         </section>
 
@@ -106,16 +112,19 @@ StartScreen.propTypes = {
 
 const mapStateToProps = (state) => ({
   moviesList: state.moviesList,
-  activeGenre: state.activeGenre
+  activeGenre: state.activeGenre,
+  showMoviesCount: state.showMoviesCount
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handlerMoviefilter(feature) {
     dispatch(ActionCreator.setFilterMovie(feature));
   },
+
+  handlerOnClickShowMore(quantity) {
+    dispatch(ActionCreator.addMoreMovies(quantity));
+  }
 });
 
 export {StartScreen};
 export default connect(mapStateToProps, mapDispatchToProps)(StartScreen);
-
-///onClick = {() => handlerMoviefilter('Comedy')

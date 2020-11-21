@@ -1,4 +1,5 @@
 import React, {PureComponent, createRef} from "react";
+import PropTypes from "prop-types";
 
 export default class VideoPlayer extends PureComponent {
 
@@ -8,7 +9,6 @@ export default class VideoPlayer extends PureComponent {
     this._videoRef = createRef();
 
     this.state = {
-      isLoading: true,
       isPlaying: props.isPlaying,
     };
   }
@@ -26,12 +26,6 @@ export default class VideoPlayer extends PureComponent {
     }
 
   }
-
-  componentWillUnmount() {
-    const video = this._videoRef.current;
-    //clearInterval(this.interval);
-  }
-
 
   componentDidUpdate() {
     const video = this._videoRef.current;
@@ -53,9 +47,11 @@ export default class VideoPlayer extends PureComponent {
       />
     );
   }
-
 }
 
-
-
-
+VideoPlayer.propTypes = {
+  isPlaying: PropTypes.bool.isRequired,
+  src: PropTypes.string.isRequired,
+  poster: PropTypes.string.isRequired,
+  properties: PropTypes.shape().isRequired
+};

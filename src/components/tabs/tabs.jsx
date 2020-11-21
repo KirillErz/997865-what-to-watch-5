@@ -1,4 +1,4 @@
-import React, {PureComponent, createRef} from "react";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 
 export default class Tabs extends PureComponent {
@@ -6,20 +6,20 @@ export default class Tabs extends PureComponent {
     super(props);
     this.state = {
       activeTabIndex: 0
-    }
+    };
     this.handleTabClick = this.handleTabClick.bind(this);
   }
 
   handleTabClick(tabIndex) {
     this.setState({
-      activeTabIndex: tabIndex === this.state.activeTabIndex ? this.props.defaultActiveTabIndex : tabIndex
+      activeTabIndex: tabIndex
     });
   }
 
   renderChildrenWithTabsApiAsProps() {
     return React.Children.map(this.props.children, (child, index) => {
       return React.cloneElement(child, {
-        onClick : this.handleTabClick,
+        onClick: this.handleTabClick,
         tabIndex: index,
         isActive: index === this.state.activeTabIndex
       });
@@ -29,31 +29,28 @@ export default class Tabs extends PureComponent {
   renderActiveTabContent() {
     const {children} = this.props;
     const {activeTabIndex} = this.state;
-    if(children[activeTabIndex]) {
-      return children[activeTabIndex].props.children;
+    if (!children[activeTabIndex]) {
+      return null;
     }
+    return children[activeTabIndex].props.children;
   }
 
 
   render() {
 
     return (
-      <div class="movie-card__desc">
-        <nav class="movie-nav movie-card__nav">
-          <ul class="movie-nav__list">
+      <div className="movie-card__desc">
+        <nav className="movie-nav movie-card__nav">
+          <ul className="movie-nav__list">
             {this.renderChildrenWithTabsApiAsProps()}
           </ul>
         </nav>
         {this.renderActiveTabContent()}
       </div>
-    )
+    );
   }
-};
+}
 
 Tabs.propTypes = {
-  defaultActiveTabIndex: PropTypes.number
-};
-
-Tabs.defaultProps = {
-  defaultActiveTabIndex: null
+  children: PropTypes.array.isRequired
 };
