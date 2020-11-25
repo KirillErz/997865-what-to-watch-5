@@ -63,9 +63,7 @@ export default {
       date: 2025,
     },
     runtime: 73,
-    genre: [
-      `Comedy`, `Drama`
-    ],
+    genre: `Drama`,
     description: generateDescription(),
   },
   userDetails: {

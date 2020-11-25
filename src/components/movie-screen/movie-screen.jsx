@@ -1,15 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import MovieList from "../movie-list/movie-list";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../store/action";
+import MovieListLikeThis from "../movie-list-like-this/movie-list-like-this";
 import {Link} from "react-router-dom";
 import Tabs from "../tabs/tabs";
 import Tab from "../tab/tab";
 import Overview from "../tab-overview/tab-overview";
 import Details from "../tab-details/tab-details";
 import Reviews from "../tab-reviews/tab-reviews";
+import withTabs from "../../hocs/with-active-movie-card/with-tabs/with-tabs"
+
+const TabsWrapped = withTabs(Tabs);
 
 const MovieScreen = (props) => {
-  const {moviesList, filmId, filmDetail} = props;
+
+  const {moviesList, activeGenre, filmId, filmDetail} = props;
   const {filmInfo} = filmDetail;
   const {
     title,
@@ -84,7 +90,7 @@ const MovieScreen = (props) => {
             </div>
 
             <div className="movie-card__desc">
-              <Tabs>
+              <TabsWrapped>
                 <Tab
                   tabName={`Overview`}
                 >
@@ -106,7 +112,7 @@ const MovieScreen = (props) => {
                 >
                   <Reviews />
                 </Tab>
-              </Tabs>
+              </TabsWrapped>
             </div>
           </div>
         </div>
@@ -115,7 +121,10 @@ const MovieScreen = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          {/* <MovieList moviesList={moviesList} /> */}
+          <MovieListLikeThis
+          moviesList={moviesList}
+          genre={genre}
+          />
         </section>
 
         <footer className="page-footer">
@@ -166,4 +175,11 @@ MovieScreen.propTypes = {
   })
 };
 
-export default MovieScreen;
+const mapStateToProps = (state) => ({
+  moviesList: state.moviesList,
+  activeGenre: state.activeGenre,
+});
+
+export {MovieScreen};
+export default connect(mapStateToProps)(MovieScreen);
+

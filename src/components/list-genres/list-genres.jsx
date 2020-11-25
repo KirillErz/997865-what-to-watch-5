@@ -18,7 +18,7 @@ const ListGenres = (props) => {
   );
 };
 
-ListGenres.prototype = {
+ListGenres.propTypes = {
   activeGenre: PropTypes.string.isRequired,
   handlerMoviefilter: PropTypes.func.isRequired
 };

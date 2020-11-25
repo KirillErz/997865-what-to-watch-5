@@ -13,7 +13,7 @@ const ShowMore = (props) => {
 
 export default ShowMore;
 
-ShowMore.prototype = {
+ShowMore.propTypes = {
   handlerOnClickShowMore: PropTypes.func.isRequired
 };
 
