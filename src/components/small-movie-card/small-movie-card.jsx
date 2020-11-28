@@ -14,7 +14,6 @@ const SmallMovieCard = (props) => {
       <div onMouseOver={onMouseOver} onMouseOut={onMouseOut} className="small-movie-card__image">
         <VideoPlayer
           video={video}
-          film={film}
         />
       </div>
       <h3 className="small-movie-card__title">
