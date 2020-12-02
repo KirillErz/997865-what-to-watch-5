@@ -6,12 +6,9 @@ import AuthScreen from "../auth-screen/auth-screen";
 import MovieScreenList from "../movies-my-list/movies-my-list";
 import MovieScreen from "../movie-screen/movie-screen";
 import MovieAddReview from "../movie-add-review/movie-add-review";
-import Player from "../player/player"
+import Player from "../player/player";
 
-
-
-const App = (props) => {
-  const {promo, films, filmDetail} = props;
+const App = () => {
   return (
     <BrowserRouter>
       <Switch>
@@ -19,24 +16,21 @@ const App = (props) => {
           exact path="/"
           render={({history}) => (
             <StartScreen
-              films={films}
-              promo={promo}
               history={history}
             />
           )}
         />
         <Route
           exact path="/login"
-          render={({history})=> (
+          render={({history}) => (
             <AuthScreen
               history={history}
             />
           )}
         />
         <Route exact path="/mylist"
-          render={({history})=> (
+          render={({history}) => (
             <MovieScreenList
-              films={films}
               history={history}
             />
           )}
@@ -46,9 +40,7 @@ const App = (props) => {
           path="/films/:id"
           render={({match, history}) => (
             <MovieScreen
-              films={films}
-              filmId={match.params.id}
-              filmDetail={filmDetail}
+              id={parseInt(match.params.id, 10)}
               history={history}
             />
           )}
@@ -56,20 +48,19 @@ const App = (props) => {
         <Route
           exact
           path="/films/:id/review"
-          render={({match ,history}) => (
+          render={({match, history}) => (
             <MovieAddReview
-              filmid={match.params.id}
+              id={match.params.id}
               history={history}
             />
           )}
         />
         <Route
           exact path="/player/:id"
-          render={({match ,history}) => (
+          render={({match, history}) => (
             <Player
-              id={match.params.id}
+              id={parseInt(match.params.id, 10)}
               history={history}
-              promo={promo}
             />
           )}
         />
@@ -85,3 +76,4 @@ App.propTypes = {
 };
 
 export default App;
+

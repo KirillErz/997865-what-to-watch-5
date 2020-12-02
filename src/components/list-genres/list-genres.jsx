@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import films from "../../mocks/films";
+import {connect} from "react-redux";
+import {getGenres, getActiveGenre} from "../../store/reducers/selectors";
+import {setFilterMovie} from "../../store/action";
 
 const ListGenres = (props) => {
-  const {activeGenre, handlerMoviefilter} = props;
+  const {activeGenre, genres, handlerMoviefilter} = props;
 
-
-  const arrGenres = [`All genres`, ...new Set(films.map((movie) => movie.genre))];
   return (
     <ul className="catalog__genres-list">
-      {arrGenres.map((genre, i) => (
+      {genres.map((genre, i) => (
         <li key={`${genre}-${i}`} className={`catalog__genres-item ${activeGenre === genre ? `catalog__genres-item--active` : ``} `}>
           <a onClick={() => handlerMoviefilter(genre)} href="#" className="catalog__genres-link">{genre}</a>
         </li>
@@ -18,11 +18,26 @@ const ListGenres = (props) => {
   );
 };
 
+
 ListGenres.propTypes = {
   activeGenre: PropTypes.string.isRequired,
   handlerMoviefilter: PropTypes.func.isRequired
 };
 
-export default ListGenres;
+const mapStateToProps = (state) => ({
+  genres: getGenres(state),
+  activeGenre: getActiveGenre(state),
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+  handlerMoviefilter(feature) {
+    dispatch(setFilterMovie(feature));
+  }
+});
+
+export {ListGenres};
+export default connect(mapStateToProps, mapDispatchToProps)(ListGenres);
+
 
 

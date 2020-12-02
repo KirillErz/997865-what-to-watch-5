@@ -2,22 +2,31 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app";
-import promo from "./mocks/promo";
-import films from "./mocks/films";
-import filmDetail from "./mocks/film-detail";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
-import {reducer} from "./store/reducer";
+import {requireAuthorization} from "./store/action";
+import thunk from "redux-thunk";
+import {createAPI} from "./services/api";
+import rootReducer from "./store/reducers/root-reducer";
+import {AuthorizationStatus} from "./const";
+import {fetchMoviesList, fetchPromoMovie} from "./store/api-actions";
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f);
+const api = createAPI(() => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)));
 
-ReactDOM.render(
-    <Provider store={store}>
-      <App
-        promo={promo}
-        films={films}
-        filmDetail={filmDetail}
-      />,
-    </Provider>,
-    document.querySelector(`#root`)
-);
+const store = createStore(rootReducer, applyMiddleware(thunk.withExtraArgument(api)));
+
+
+Promise.all([
+  store.dispatch(fetchMoviesList()),
+  store.dispatch(fetchPromoMovie())
+]).then(() => {
+  ReactDOM.render(
+      <Provider store={store}>
+        <App
+        />,
+      </Provider>,
+      document.querySelector(`#root`)
+  );
+});
+
+

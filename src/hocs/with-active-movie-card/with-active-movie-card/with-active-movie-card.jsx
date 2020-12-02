@@ -7,7 +7,7 @@ const withActivMovieCard = (Component) => {
 
       this.state = {
         isPlaying: false
-      }
+      };
       this._playTimeout = 0;
       this.videoRef = createRef();
       this.handlerMouseOver = this.handlerMouseOver.bind(this);
@@ -15,14 +15,13 @@ const withActivMovieCard = (Component) => {
     }
 
     componentDidMount() {
-      const {film: {src, poster}} = this.props;
-      console.log(src);
+      const {film: {preview_video_link, preview_image}} = this.props;
       if (this.videoRef.current) {
         this.videoRef.current.muted = `muted`;
         this.videoRef.current.width = 280;
         this.videoRef.current.height = 175;
-        this.videoRef.current.poster = poster;
-        this.videoRef.current.src = src;
+        this.videoRef.current.poster = preview_image;
+        this.videoRef.current.src = preview_video_link;
       }
 
     }
@@ -52,8 +51,8 @@ const withActivMovieCard = (Component) => {
         video={this.videoRef}
         onMouseOver={this.handlerMouseOver}
         onMouseOut={this.handlerMouseOut}
-      />
-    };
+      />;
+    }
 
   }
   return withActivMovieCard;

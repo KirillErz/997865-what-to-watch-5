@@ -1,5 +1,5 @@
 import React from "react";
-import VideoPlayer from "../video-player/video-player"
+import VideoPlayer from "../video-player/video-player";
 import moment from "moment";
 
 const MoviePlayer = (props) => {

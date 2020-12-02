@@ -1,4 +1,5 @@
 import React, {Fragment} from "react";
+import PropTypes from "prop-types";
 
 const  Overview = (props) => {
   const {totalRating, countRatings, description, director, starring} = props;
@@ -34,6 +35,16 @@ const  Overview = (props) => {
       </div>
     </Fragment>
   );
+};
+
+Overview.propTypes = {
+  rating: PropTypes.number,
+  totalRating: PropTypes.number,
+  director: PropTypes.string,
+  starring: PropTypes.array,
+  description: PropTypes.string,
+  countRatings: PropTypes.number,
+
 };
 
 export default Overview;

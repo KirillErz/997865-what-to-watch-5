@@ -2,19 +2,20 @@ import React from "react";
 import PropTypes from "prop-types";
 import MovieList from "../movie-list/movie-list";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
 import ListGenres from "../list-genres/list-genres";
 import ShowMore from "../show-more/show-more";
-import {Link} from "react-router-dom";
+import {addMoreMovies} from "../../store/action";
+import {getFilmsByGenre, getPromoMovie, getMoviesRendered} from "../../store/reducers/selectors";
 
 const StartScreen = (props) => {
-  const {moviesList, history, activeGenre, showMoviesCount, promo, handlerMoviefilter, handlerOnClickShowMore} = props;
-  const {genre, releaseDate} = promo;
+  const {moviesList, history, promoMovie, moviesRendered, handlerOnClickShowMore} = props;
+  const {genre, id, released, name, poster_image, background_image} = promoMovie;
+
   return (
     <React.Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={background_image} alt={name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -38,19 +39,19 @@ const StartScreen = (props) => {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={poster_image} alt={name} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="movie-card__title">{name}</h2>
               <p className="movie-card__meta">
                 <span className="movie-card__genre">{genre}</span>
-                <span className="movie-card__year">{releaseDate}</span>
+                <span className="movie-card__year">{released}</span>
               </p>
 
               <div className="movie-card__buttons">
 
-                <button onClick={() => history.push(`/player/:id`)} className="btn btn--play movie-card__button" type="button">
+                <button onClick={() => history.push(`/player/:${id}`)} className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -71,15 +72,12 @@ const StartScreen = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ListGenres
-            activeGenre={activeGenre}
-            handlerMoviefilter={handlerMoviefilter}
-          />
+          <ListGenres/>
           <MovieList
-            showMoviesCount={showMoviesCount}
+            showMoviesCount={moviesRendered}
             moviesList={moviesList} />
           <div className="catalog__more">
-            {showMoviesCount < moviesList.length ? (
+            {moviesRendered < moviesList.length ? (
               <ShowMore
                 handlerOnClickShowMore={handlerOnClickShowMore}
               />) : null}
@@ -113,18 +111,15 @@ StartScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  moviesList: state.moviesList,
-  activeGenre: state.activeGenre,
-  showMoviesCount: state.showMoviesCount
+  moviesList: getFilmsByGenre(state),
+  promoMovie: getPromoMovie(state),
+  moviesRendered: getMoviesRendered(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handlerMoviefilter(feature) {
-    dispatch(ActionCreator.setFilterMovie(feature));
-  },
 
   handlerOnClickShowMore(quantity) {
-    dispatch(ActionCreator.addMoreMovies(quantity));
+    dispatch(addMoreMovies(quantity));
   }
 });
 

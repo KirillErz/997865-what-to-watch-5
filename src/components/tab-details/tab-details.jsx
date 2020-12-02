@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 
 const Details = (props) => {
-  //const {} = props
 
   return (
     <Fragment>

@@ -7,7 +7,7 @@ const SmallMovieCard = (props) => {
 
   const {film, video, onMouseOver, onMouseOut} = props;
 
-  const {id, title} = film;
+  const {id, name} = film;
 
   return (
     <article className="small-movie-card catalog__movies-card">
@@ -17,7 +17,7 @@ const SmallMovieCard = (props) => {
         />
       </div>
       <h3 className="small-movie-card__title">
-        <Link to={`/films/${id}`} className="small-movie-card__link">{title}</Link>
+        <Link to={`/films/${id}`} className="small-movie-card__link">{name}</Link>
       </h3>
     </article>
   );

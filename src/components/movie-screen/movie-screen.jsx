@@ -1,41 +1,39 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/action";
-import MovieListLikeThis from "../movie-list-like-this/movie-list-like-this";
 import {Link} from "react-router-dom";
 import Tabs from "../tabs/tabs";
 import Tab from "../tab/tab";
 import Overview from "../tab-overview/tab-overview";
 import Details from "../tab-details/tab-details";
 import Reviews from "../tab-reviews/tab-reviews";
-import withTabs from "../../hocs/with-active-movie-card/with-tabs/with-tabs"
+import withTabs from "../../hocs/with-active-movie-card/with-tabs/with-tabs";
+import {getMovie} from "../../store/reducers/selectors";
+import {fetchFilm} from "../../store/api-actions";
 
 const TabsWrapped = withTabs(Tabs);
 
 const MovieScreen = (props) => {
 
-  const {moviesList, activeGenre, filmId, filmDetail} = props;
-  const {filmInfo} = filmDetail;
-  const {
-    title,
-    totalRating,
-    countRatings,
-    poster,
-    cover,
-    director,
-    starring,
-    release,
-    genre,
-    description,
-  } = filmInfo;
+  const {id, film, loadCurrentFilm} = props;
+
+
+  useEffect(() => {
+    loadCurrentFilm(id, film);
+  }, [id]);
+
+  if (!film) {
+    return null;
+  }
+
+  const {name, background_image, rating, poster_image, scores_count, director, starring, description, genre, released} = film;
 
   return (
     <React.Fragment>
       <section className="movie-card movie-card--full">
         <div className="movie-card__hero">
           <div className="movie-card__bg">
-            <img src={poster} alt="The Grand Budapest Hotel" />
+            <img src={background_image} alt={name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -58,10 +56,10 @@ const MovieScreen = (props) => {
 
           <div className="movie-card__wrap">
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{title}</h2>
+              <h2 className="movie-card__title">{name}</h2>
               <p className="movie-card__meta">
                 <span className="movie-card__genre">{genre}</span>
-                <span className="movie-card__year">{release.date}</span>
+                <span className="movie-card__year">{released}</span>
               </p>
 
               <div className="movie-card__buttons">
@@ -77,7 +75,7 @@ const MovieScreen = (props) => {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/${filmId}/review`} className="btn movie-card__button">Add review</Link>
+                <Link to={`/films/${id}/review`} className="btn movie-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -86,7 +84,7 @@ const MovieScreen = (props) => {
         <div className="movie-card__wrap movie-card__translate-top">
           <div className="movie-card__info">
             <div className="movie-card__poster movie-card__poster--big">
-              <img src={cover} alt={title} width="218" height="327" />
+              <img src={poster_image} alt={name} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
@@ -95,8 +93,8 @@ const MovieScreen = (props) => {
                   tabName={`Overview`}
                 >
                   <Overview
-                    totalRating={totalRating}
-                    countRatings={countRatings}
+                    totalRating={rating}
+                    countRatings={scores_count}
                     director={director}
                     starring={starring}
                     description={description}
@@ -105,12 +103,14 @@ const MovieScreen = (props) => {
                 <Tab
                   tabName={`Details`}
                 >
-                  <Details />
+                  <Details
+                  film={film}
+                  />
                 </Tab>
                 <Tab
                   tabName={`Reviews`}
                 >
-                  <Reviews />
+                  <Reviews/>
                 </Tab>
               </TabsWrapped>
             </div>
@@ -121,10 +121,10 @@ const MovieScreen = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <MovieListLikeThis
+          {/* <MovieListLikeThis
           moviesList={moviesList}
           genre={genre}
-          />
+          /> */}
         </section>
 
         <footer className="page-footer">
@@ -146,40 +146,33 @@ const MovieScreen = (props) => {
 };
 
 MovieScreen.propTypes = {
-  moviesList: PropTypes.array.isRequired,
-  filmId: PropTypes.string,
-  filmDetail: PropTypes.shape({
-    id: PropTypes.number,
-    reviews: PropTypes.array.isRequired,
-    src: PropTypes.string,
-    filmInfo: PropTypes.shape({
-      title: PropTypes.string,
-      alternativeTitle: PropTypes.string,
-      totalRating: PropTypes.number,
-      countRatings: PropTypes.number,
-      poster: PropTypes.string,
-      cover: PropTypes.string,
-      director: PropTypes.string,
-      writers: PropTypes.arrayOf(PropTypes.string),
-      starring: PropTypes.arrayOf(PropTypes.string),
-      release: PropTypes.shape({
-        date: PropTypes.number
-      }),
-      runtime: PropTypes.number,
-      genre: PropTypes.string,
-      description: PropTypes.string,
-      userDetails: PropTypes.shape({
-        watchlist: PropTypes.bool
-      })
-    })
-  })
+  id: PropTypes.number,
+  film: PropTypes.shape({
+    name: PropTypes.string,
+    background_image: PropTypes.string,
+    rating: PropTypes.number,
+    poster_image: PropTypes.string,
+    scores_count: PropTypes.number,
+    director: PropTypes.string,
+    starring: PropTypes.array,
+    description: PropTypes.string,
+    genre: PropTypes.string,
+    released: PropTypes.number,
+  }),
+  loadCurrentFilm: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
-  moviesList: state.moviesList,
-  activeGenre: state.activeGenre,
+  film: getMovie(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loadCurrentFilm(id) {
+    dispatch(fetchFilm(id));
+  },
 });
 
 export {MovieScreen};
-export default connect(mapStateToProps)(MovieScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MovieScreen);
+
 

@@ -1,6 +1,5 @@
 import React, {PureComponent, createRef} from "react";
 
-
 const withMoviePlayer = (Component) => {
   class withMoviePlayer extends PureComponent {
     constructor(props) {
@@ -10,7 +9,8 @@ const withMoviePlayer = (Component) => {
         isPlaying: false,
         duration: 0,
         progress: 0
-      }
+      };
+
       this._playTimeout = 0;
       this.videoRef = createRef();
       this.progressBar = createRef();
@@ -21,12 +21,11 @@ const withMoviePlayer = (Component) => {
     }
 
     componentDidMount() {
-      const {promo} = this.props;
-      const {filmInfo: {src, poster}} = promo;
+      const {promo: {video_link, preview_image}} = this.props;
       if (this.videoRef.current) {
-        this.videoRef.current.preload="metadata"
-        this.videoRef.current.poster = poster;
-        this.videoRef.current.src = src;
+        this.videoRef.current.preload = "metadata";
+        this.videoRef.current.poster = preview_image;
+        this.videoRef.current.src = video_link;
 
         this.videoRef.current.onstarted = () => {
           this.setState({
@@ -110,14 +109,14 @@ const withMoviePlayer = (Component) => {
 
 
     handlerExitClick() {
-      this.props.history.goBack()
+      this.props.history.goBack();
     }
 
     render() {
       return <Component
         {...this.props}
         isPlaying={this.state.isPlaying}
-        classPlayer={"player__video"}
+        classPlayer={`player__video`}
         video={this.videoRef}
         progressBar={this.progressBar}
         progress={this.state.progress}
@@ -126,8 +125,8 @@ const withMoviePlayer = (Component) => {
         handlerExitClick={this.handlerExitClick}
         handlerPlayClick={this.handlerPlayClick}
         handlerFullScreenClick={this.handlerFullScreenClick}
-      />
-    };
+      />;
+    }
 
   }
   return withMoviePlayer;
